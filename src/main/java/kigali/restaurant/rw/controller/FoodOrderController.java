@@ -88,6 +88,7 @@ public class FoodOrderController {
         org.springframework.data.domain.Sort.Direction dir = (parts.length > 1 && parts[1].equalsIgnoreCase("asc"))
                 ? org.springframework.data.domain.Sort.Direction.ASC
                 : org.springframework.data.domain.Sort.Direction.DESC;
-        return foodOrderService.getPage(page, size, field, dir);
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size, org.springframework.data.domain.Sort.by(dir, field));
+        return foodOrderService.getAllOrdersPage(pageable);
     }
 }

@@ -83,8 +83,7 @@ public class FoodOrderService {
         return n + " food orders cancelled";
     }
 
-    public org.springframework.data.domain.Page<FoodOrder> getPage(int page, int size, String field, org.springframework.data.domain.Sort.Direction dir) {
-        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size, org.springframework.data.domain.Sort.by(dir, field));
+    public org.springframework.data.domain.Page<FoodOrder> getAllOrdersPage(org.springframework.data.domain.Pageable pageable) {
         return foodOrderRepo.findAll(pageable);
     }
 }
