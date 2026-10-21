@@ -8,12 +8,16 @@ import org.springframework.stereotype.Service;
 
 import kigali.restaurant.rw.domain.FoodOrder;
 import kigali.restaurant.rw.repository.FoodOrderRepository;
+import kigali.restaurant.rw.repository.PaymentRepository;
 
 @Service
 public class FoodOrderService {
 
     @Autowired
     private FoodOrderRepository foodOrderRepo;
+
+    @Autowired
+    private PaymentRepository paymentRepo;
 
     public String saveFoodOrder(FoodOrder foodOrder) {
         java.time.LocalDate date = foodOrder.getOrderDate();
@@ -43,6 +47,7 @@ public class FoodOrderService {
 
     public String deleteFoodOrder(UUID id) {
         if (!foodOrderRepo.existsById(id)) return "The food order with that id does not exist";
+        if (paymentRepo.existsByFoodOrderId(id)) return "That food order has payments, delete them first";
         foodOrderRepo.deleteById(id);
         return "Food order deleted successfully";
     }
