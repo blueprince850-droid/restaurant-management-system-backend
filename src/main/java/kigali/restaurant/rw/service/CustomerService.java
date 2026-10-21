@@ -1,5 +1,8 @@
 package kigali.restaurant.rw.service;
 
+import kigali.restaurant.rw.repository.WaiterRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +17,9 @@ public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepo;
+
+    @Autowired
+    private WaiterRepository waiterRepo;
 
     public String saveCustomer(Customer customer) {
         customerRepo.save(customer);
@@ -43,5 +49,9 @@ public class CustomerService {
 
     public java.util.List<Customer> getByLastName(String lastName) {
         return customerRepo.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
+    }
+    public Object getCustomersOfWaiter(UUID waiterId) {
+        if (!waiterRepo.existsById(waiterId)) return "The waiter with that id does not exist";
+        return customerRepo.findCustomersOfWaiter(waiterId);
     }
 }

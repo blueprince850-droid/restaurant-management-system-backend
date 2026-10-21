@@ -40,4 +40,7 @@ public class WaiterService {
         waiterRepo.deleteById(id);
         return "Waiter deleted successfully";
     }
+    public java.util.List<Waiter> getBySkill(String name) {
+        return waiterRepo.findBySkillNameIgnoreCase(name);
+    }
 }

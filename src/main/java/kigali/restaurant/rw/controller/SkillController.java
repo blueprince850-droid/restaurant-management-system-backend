@@ -48,4 +48,8 @@ public class SkillController {
         if (msg.equals("The skill with that id does not exist")) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
         return ResponseEntity.ok(msg);
     }
+    @GetMapping("/unused")
+    public List<Skill> unused() {
+        return skillService.getUnusedSkills();
+    }
 }

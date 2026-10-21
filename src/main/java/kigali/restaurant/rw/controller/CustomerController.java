@@ -53,4 +53,10 @@ public class CustomerController {
     public List<Customer> byLastName(@RequestParam String lastName) {
         return customerService.getByLastName(lastName);
     }
+    @GetMapping("/of-waiter/{waiterId}")
+    public ResponseEntity<?> ofWaiter(@PathVariable UUID waiterId) {
+        Object result = customerService.getCustomersOfWaiter(waiterId);
+        if (result instanceof String) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+        return ResponseEntity.ok(result);
+    }
 }

@@ -48,4 +48,8 @@ public class DiningTableController {
         if (msg.equals("The dining table with that id does not exist")) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
         return ResponseEntity.ok(msg);
     }
+    @GetMapping("/free")
+    public List<DiningTable> free() {
+        return diningTableService.getFreeTables();
+    }
 }

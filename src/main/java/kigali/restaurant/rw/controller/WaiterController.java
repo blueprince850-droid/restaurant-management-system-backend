@@ -48,4 +48,8 @@ public class WaiterController {
         if (msg.equals("The waiter with that id does not exist")) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
         return ResponseEntity.ok(msg);
     }
+    @GetMapping("/by-skill")
+    public List<Waiter> bySkill(@RequestParam String name) {
+        return waiterService.getBySkill(name);
+    }
 }

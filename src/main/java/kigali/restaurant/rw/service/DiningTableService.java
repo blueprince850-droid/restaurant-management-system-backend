@@ -40,4 +40,7 @@ public class DiningTableService {
         diningTableRepo.deleteById(id);
         return "Dining table deleted successfully";
     }
+    public java.util.List<DiningTable> getFreeTables() {
+        return diningTableRepo.findFreeTables();
+    }
 }
