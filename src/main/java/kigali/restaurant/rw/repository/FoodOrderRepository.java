@@ -26,4 +26,8 @@ public interface FoodOrderRepository extends JpaRepository<FoodOrder, UUID> {
     @Modifying
     @Query("UPDATE FoodOrder o SET o.status = kigali.restaurant.rw.domain.OrderStatus.CANCELLED WHERE o.waiter.id = :waiterId AND o.orderDate = :date AND o.status <> kigali.restaurant.rw.domain.OrderStatus.SERVED")
     int cancelDay(@Param("waiterId") java.util.UUID waiterId, @Param("date") java.time.LocalDate date);
+
+    long countByStatus(kigali.restaurant.rw.domain.OrderStatus status);
+
+    long countByOrderDate(java.time.LocalDate orderDate);
 }

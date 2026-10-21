@@ -80,4 +80,14 @@ public class FoodOrderController {
     public String cancelDay(@RequestParam UUID waiterId, @RequestParam String date) {
         return foodOrderService.cancelDay(waiterId, LocalDate.parse(date));
     }
+
+    @GetMapping("/page")
+    public org.springframework.data.domain.Page<FoodOrder> page(@RequestParam int page, @RequestParam int size, @RequestParam String sort) {
+        String[] parts = sort.split(",");
+        String field = parts[0];
+        org.springframework.data.domain.Sort.Direction dir = (parts.length > 1 && parts[1].equalsIgnoreCase("asc"))
+                ? org.springframework.data.domain.Sort.Direction.ASC
+                : org.springframework.data.domain.Sort.Direction.DESC;
+        return foodOrderService.getPage(page, size, field, dir);
+    }
 }
