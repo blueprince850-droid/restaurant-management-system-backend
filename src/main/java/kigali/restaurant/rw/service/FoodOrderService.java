@@ -16,6 +16,12 @@ public class FoodOrderService {
     private FoodOrderRepository foodOrderRepo;
 
     public String saveFoodOrder(FoodOrder foodOrder) {
+        java.time.LocalDate date = foodOrder.getOrderDate();
+        if (date.isBefore(java.time.LocalDate.now())) return "Food order date cannot be in the past";
+        if (foodOrder.getWaiter() != null && foodOrderRepo.existsByWaiterIdAndOrderDateAndStatusNot(foodOrder.getWaiter().getId(), date, kigali.restaurant.rw.domain.OrderStatus.CANCELLED)) {
+            return "Waiter already has an open order on that date";
+        }
+        foodOrder.setStatus(kigali.restaurant.rw.domain.OrderStatus.PLACED);
         foodOrderRepo.save(foodOrder);
         return "Food order saved successfully";
     }
@@ -47,5 +53,18 @@ public class FoodOrderService {
 
     public java.util.List<FoodOrder> getBetween(java.time.LocalDate start, java.time.LocalDate end) {
         return foodOrderRepo.findByOrderDateBetweenOrderByOrderDateAsc(start, end);
+    }
+    public String changeStatus(UUID id, kigali.restaurant.rw.domain.OrderStatus newStatus) {
+        java.util.Optional<FoodOrder> existing = foodOrderRepo.findById(id);
+        if (existing.isEmpty()) return "The food order with that id does not exist";
+        FoodOrder o = existing.get();
+        kigali.restaurant.rw.domain.OrderStatus current = o.getStatus();
+        boolean ok = false;
+        if (current == kigali.restaurant.rw.domain.OrderStatus.PLACED && (newStatus == kigali.restaurant.rw.domain.OrderStatus.PREPARING || newStatus == kigali.restaurant.rw.domain.OrderStatus.CANCELLED)) ok = true;
+        if (current == kigali.restaurant.rw.domain.OrderStatus.PREPARING && (newStatus == kigali.restaurant.rw.domain.OrderStatus.SERVED || newStatus == kigali.restaurant.rw.domain.OrderStatus.CANCELLED)) ok = true;
+        if (!ok) return "Cannot change status from " + current + " to " + newStatus;
+        o.setStatus(newStatus);
+        foodOrderRepo.save(o);
+        return "Food order status updated successfully";
     }
 }

@@ -15,4 +15,5 @@ import kigali.restaurant.rw.domain.Waiter;
 public interface WaiterRepository extends JpaRepository<Waiter, UUID> {
     @Query("SELECT DISTINCT w FROM Waiter w JOIN w.skills s WHERE LOWER(s.name) = LOWER(:name)")
     java.util.List<Waiter> findBySkillNameIgnoreCase(@Param("name") String name);
+    boolean existsByDiningTableIdAndIdNot(UUID diningTableId, UUID waiterId);
 }

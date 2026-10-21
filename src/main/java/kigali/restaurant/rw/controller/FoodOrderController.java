@@ -1,5 +1,8 @@
 package kigali.restaurant.rw.controller;
 
+import kigali.restaurant.rw.domain.OrderStatus;
+import java.util.UUID;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -59,5 +62,12 @@ public class FoodOrderController {
     @GetMapping("/between")
     public List<FoodOrder> between(@RequestParam String start, @RequestParam String end) {
         return foodOrderService.getBetween(LocalDate.parse(start), LocalDate.parse(end));
+    }
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<String> changeStatus(@PathVariable UUID id, @RequestParam OrderStatus status) {
+        String msg = foodOrderService.changeStatus(id, status);
+        if (msg.equals("The food order with that id does not exist")) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+        if (msg.startsWith("Cannot change status")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
+        return ResponseEntity.ok(msg);
     }
 }

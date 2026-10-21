@@ -52,4 +52,18 @@ public class WaiterController {
     public List<Waiter> bySkill(@RequestParam String name) {
         return waiterService.getBySkill(name);
     }
+    @PutMapping("/{waiterId}/skills/{skillId}")
+    public ResponseEntity<String> addSkill(@PathVariable UUID waiterId, @PathVariable UUID skillId) {
+        String msg = waiterService.addSkill(waiterId, skillId);
+        if (msg.equals("The waiter with that id does not exist") || msg.equals("That skill does not exist")) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+        if (msg.equals("The waiter already has that skill")) return ResponseEntity.status(HttpStatus.CONFLICT).body(msg);
+        return ResponseEntity.ok(msg);
+    }
+    @PatchMapping("/{waiterId}/dining-table")
+    public ResponseEntity<String> changeDiningTable(@PathVariable UUID waiterId, @RequestParam int tableNumber) {
+        String msg = waiterService.changeDiningTable(waiterId, tableNumber);
+        if (msg.equals("The waiter with that id does not exist") || msg.equals("The dining table with that tableNumber does not exist")) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+        if (msg.equals("That dining table is taken by another waiter")) return ResponseEntity.status(HttpStatus.CONFLICT).body(msg);
+        return ResponseEntity.ok(msg);
+    }
 }
