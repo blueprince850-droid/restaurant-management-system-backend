@@ -72,4 +72,14 @@ public class FoodOrderService {
         foodOrderRepo.save(o);
         return "Food order status updated successfully";
     }
+
+    public java.util.List<Object[]> countByStatus() {
+        return foodOrderRepo.countByStatusGroup();
+    }
+
+    @org.springframework.transaction.annotation.Transactional
+    public String cancelDay(UUID waiterId, java.time.LocalDate date) {
+        int n = foodOrderRepo.cancelDay(waiterId, date);
+        return n + " food orders cancelled";
+    }
 }

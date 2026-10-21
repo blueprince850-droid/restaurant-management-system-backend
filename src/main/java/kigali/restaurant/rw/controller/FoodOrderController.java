@@ -70,4 +70,14 @@ public class FoodOrderController {
         if (msg.startsWith("Cannot change status")) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
         return ResponseEntity.ok(msg);
     }
+
+    @GetMapping("/stats/by-status")
+    public List<Object[]> statsByStatus() {
+        return foodOrderService.countByStatus();
+    }
+
+    @PatchMapping("/cancel-day")
+    public String cancelDay(@RequestParam UUID waiterId, @RequestParam String date) {
+        return foodOrderService.cancelDay(waiterId, LocalDate.parse(date));
+    }
 }
