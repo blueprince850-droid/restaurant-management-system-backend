@@ -48,4 +48,9 @@ public class CustomerController {
         if (msg.equals("The customer with that id does not exist")) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
         return ResponseEntity.ok(msg);
     }
+
+    @GetMapping("/by-last-name")
+    public List<Customer> byLastName(@RequestParam String lastName) {
+        return customerService.getByLastName(lastName);
+    }
 }

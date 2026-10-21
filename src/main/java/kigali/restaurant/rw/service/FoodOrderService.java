@@ -40,4 +40,12 @@ public class FoodOrderService {
         foodOrderRepo.deleteById(id);
         return "Food order deleted successfully";
     }
+
+    public java.util.List<FoodOrder> getByStatus(kigali.restaurant.rw.domain.OrderStatus status) {
+        return foodOrderRepo.findByStatusOrderByOrderDateAsc(status);
+    }
+
+    public java.util.List<FoodOrder> getBetween(java.time.LocalDate start, java.time.LocalDate end) {
+        return foodOrderRepo.findByOrderDateBetweenOrderByOrderDateAsc(start, end);
+    }
 }

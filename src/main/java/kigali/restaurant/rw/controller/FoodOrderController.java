@@ -1,5 +1,6 @@
 package kigali.restaurant.rw.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import kigali.restaurant.rw.domain.FoodOrder;
+import kigali.restaurant.rw.domain.OrderStatus;
 import kigali.restaurant.rw.service.FoodOrderService;
 
 @RestController
@@ -47,5 +49,15 @@ public class FoodOrderController {
         String msg = foodOrderService.deleteFoodOrder(id);
         if (msg.equals("The food order with that id does not exist")) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
         return ResponseEntity.ok(msg);
+    }
+
+    @GetMapping("/by-status")
+    public List<FoodOrder> byStatus(@RequestParam OrderStatus status) {
+        return foodOrderService.getByStatus(status);
+    }
+
+    @GetMapping("/between")
+    public List<FoodOrder> between(@RequestParam String start, @RequestParam String end) {
+        return foodOrderService.getBetween(LocalDate.parse(start), LocalDate.parse(end));
     }
 }

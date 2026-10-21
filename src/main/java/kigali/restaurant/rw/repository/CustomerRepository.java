@@ -9,4 +9,6 @@ import kigali.restaurant.rw.domain.Customer;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, UUID> {
+
+    java.util.List<Customer> findByLastNameIgnoreCaseOrderByFirstNameAsc(String lastName);
 }
