@@ -8,7 +8,7 @@
 		<version>4.1.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>kigali.restaurant.rw</groupId>
+	<groupId>auca.restaurant.rw</groupId>
 	<artifactId>restaurant-management-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
