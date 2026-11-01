@@ -4,3 +4,4 @@ target/
 .vscode/
 HELP.md
 src/main/resources/application.properties
+app.log
