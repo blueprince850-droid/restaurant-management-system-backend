@@ -20,4 +20,6 @@ import auca.restaurant.rw.domain.*; import auca.restaurant.rw.repository.*; impo
         if(c==OrderStatus.PREPARING && n!=OrderStatus.SERVED && n!=OrderStatus.CANCELLED) return "Cannot change status from "+c+" to "+n;
         f.setStatus(n); r.save(f); return "Food order status updated successfully";
     }
+    public org.springframework.data.domain.Page<FoodOrder> pageAll(org.springframework.data.domain.Pageable pageable){ return r.findAll(pageable); }
 }
+

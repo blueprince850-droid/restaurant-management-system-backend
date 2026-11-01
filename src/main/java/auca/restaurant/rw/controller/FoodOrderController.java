@@ -12,4 +12,12 @@ import auca.restaurant.rw.domain.*; import auca.restaurant.rw.service.*; import 
     @GetMapping("/stats/by-status") public List<Object[]> h(){return s.stat();}
     @PatchMapping("/cancel-day") public ResponseEntity<?> i(@RequestParam UUID waiterId,@RequestParam String date){return new ResponseEntity<>(s.cancel(waiterId,LocalDate.parse(date)),HttpStatus.OK);}
     @PatchMapping("/{id}/status") public ResponseEntity<?> j(@PathVariable UUID id,@RequestParam OrderStatus status){String r=this.s.stat(id,status); if(r.equals("The food order with that id does not exist")) return new ResponseEntity<>(r,HttpStatus.NOT_FOUND); if(r.startsWith("Cannot change")) return new ResponseEntity<>(r,HttpStatus.BAD_REQUEST); return new ResponseEntity<>(r,HttpStatus.OK);}
+    @GetMapping("/page")
+    public org.springframework.data.domain.Page<FoodOrder> page(@RequestParam int page, @RequestParam int size, @RequestParam String sort){
+        String[] p = sort.split(",");
+        org.springframework.data.domain.Sort.Direction dir = p.length>1 && p[1].equalsIgnoreCase("desc") ? org.springframework.data.domain.Sort.Direction.DESC : org.springframework.data.domain.Sort.Direction.ASC;
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size, org.springframework.data.domain.Sort.by(dir, p[0]));
+        return s.pageAll(pageable);
+    }
 }
+
