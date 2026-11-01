@@ -1,0 +1,1 @@
+package auca.restaurant.rw;`nimport org.junit.jupiter.api.Test;`nimport org.springframework.boot.test.context.SpringBootTest;`n@SpringBootTest`nclass RestaurantManagementSystemApplicationTests { @Test void contextLoads() { } }
