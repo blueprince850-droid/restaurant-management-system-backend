@@ -5,3 +5,4 @@ target/
 HELP.md
 src/main/resources/application.properties
 app.log
+app.log
